@@ -6,7 +6,7 @@ import { LEVELS } from '../../models/levels.enum';
 // Importamos la hoja de estilos de tacks.scss
 import './../../styles/task.scss'
 
-const TaskComponent = ({task}) => {
+const TaskComponent = ({task, complete, remove}) => {
 
     useEffect(() => {
         console.log('Created Task')
@@ -56,9 +56,9 @@ const TaskComponent = ({task}) => {
      */
     function taskIconCompleted () {
         if (task.completed) {
-            return  (<i className='bi-toggle-on' style={{color:"green", fontWeight:"bold"}}></i>) 
+            return  (<i onClick={() => complete(task)} className='bi-toggle-on task-action' style={{color:"green", fontWeight:"bold"}}></i>) 
         } else {
-            return (<i className='bi-toggle-off' style={{color:"grey", fontWeight:"bold"}}></i>)
+            return (<i onClick={() => complete(task)} className='bi-toggle-off task-action' style={{color:"grey", fontWeight:"bold"}}></i>)
         }
     }
 
@@ -78,14 +78,16 @@ const TaskComponent = ({task}) => {
         <td className="align-middle">
             {/*Execution of function to return icon depending on completion*/}
             {taskIconCompleted()}
-            <i className='bi-trash' style={{color:"tomato", fontSize:"15px"}}></i>
+            <i className='bi-trash task-action' onClick={() => remove(task)} style={{color:"tomato", fontSize:"15px"}}></i>
         </td>
     </tr>
   )
 }
 
 TaskComponent.propTypes = {
-    task: PropTypes.instanceOf(Task)
+    task: PropTypes.instanceOf(Task).isRequired,
+    complete: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired,
 };
 
 
